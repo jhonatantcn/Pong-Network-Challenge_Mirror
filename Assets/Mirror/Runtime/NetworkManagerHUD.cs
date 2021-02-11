@@ -74,24 +74,6 @@ namespace Mirror
         {
             if (!NetworkClient.active)
             {
-                // Server + Client
-                if (Application.platform != RuntimePlatform.WebGLPlayer)
-                {
-                    if (GUILayout.Button("Host (Server + Client)"))
-                    {
-                        manager.StartHost();
-                    }
-                }
-
-                // Client + IP
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Client"))
-                {
-                    manager.StartClient();
-                }
-                manager.networkAddress = GUILayout.TextField(manager.networkAddress);
-                GUILayout.EndHorizontal();
-
                 // Server Only
                 if (Application.platform == RuntimePlatform.WebGLPlayer)
                 {
@@ -100,8 +82,26 @@ namespace Mirror
                 }
                 else
                 {
-                    if (GUILayout.Button("Server Only")) manager.StartServer();
+                    if (GUILayout.Button("I am: Server Only")) manager.StartServer();
                 }
+
+                // Server + Client
+                if (Application.platform != RuntimePlatform.WebGLPlayer)
+                {
+                    if (GUILayout.Button("I am: Host (Server + Client)"))
+                    {
+                        manager.StartHost();
+                    }
+                }
+
+                // Client + IP
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("I am: Client"))
+                {
+                    manager.StartClient();
+                }
+                manager.networkAddress = GUILayout.TextField(manager.networkAddress);
+                GUILayout.EndHorizontal();
             }
             else
             {
