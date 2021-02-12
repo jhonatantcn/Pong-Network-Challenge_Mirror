@@ -6,8 +6,14 @@ namespace Mirror.Examples.Pong
     {
         public float speed = 30;
         public Rigidbody2D rigidbody2d;
+        //public vector3 startposition;
 
-        // need to use FixedUpdate for rigidbody
+        //void Start()
+        //{
+        //    startPosition = transform.position;
+        //}
+
+            // need to use FixedUpdate for rigidbody
         void FixedUpdate()
         {
             // only let the local player control the racket.
@@ -15,5 +21,11 @@ namespace Mirror.Examples.Pong
             if (isLocalPlayer)
                 rigidbody2d.velocity = new Vector2(0, Input.GetAxisRaw("Vertical")) * speed * Time.fixedDeltaTime;
         }
+
+        //public void reset()
+        //{
+        //    rigidbody2d.velocity = vector2.zero;
+        //    transform.position = startposition;
+        //}
     }
 }

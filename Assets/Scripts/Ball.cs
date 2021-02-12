@@ -6,6 +6,19 @@ namespace Mirror.Examples.Pong
     {
         public float speed = 30;
         public Rigidbody2D rigidbody2d;
+        public Vector3 startPosition;
+
+        void Start()
+        {
+            startPosition = transform.position;
+        }
+
+        public void Reset()
+        {
+            rigidbody2d.velocity = Vector2.zero;
+            transform.position = startPosition;
+            Launch();
+        }
 
         public override void OnStartServer()
         {
@@ -14,8 +27,16 @@ namespace Mirror.Examples.Pong
             // only simulate ball physics on server
             rigidbody2d.simulated = true;
 
-            // Serve the ball from left player
-            rigidbody2d.velocity = Vector2.right * speed;
+            Launch();
+        }
+
+        // Lança a bola randomicamente
+        private void Launch()
+        {
+            // sorte X e Y randomicamente, caso o valor randômico seja igual a 0, então recebe -1, caso não recebe 1.
+            float x = Random.Range(0, 2) == 0 ? -1 : 1;
+            float y = Random.Range(0, 2) == 0 ? -1 : 1;
+            rigidbody2d.velocity = new Vector2(speed * x, speed * y);
         }
 
         float HitFactor(Vector2 ballPos, Vector2 racketPos, float racketHeight)
