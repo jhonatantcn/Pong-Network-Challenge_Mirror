@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1736672987767082635}
   m_Layer: 0
   m_Name: Racket
-  m_TagString: Untagged
+  m_TagString: Racket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,3 +184,4 @@ MonoBehaviour:
   syncInterval: 0.1
   speed: 1500
   rigidbody2d: {fileID: 50389918509199184}
+  startPosition: {x: 0, y: 0, z: 0}

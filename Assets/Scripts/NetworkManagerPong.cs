@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mirror.Examples.Pong
+namespace Mirror
 {
     // Custom NetworkManager that simply assigns the correct racket positions when
     // spawning players. The built in RoundRobin spawn method wouldn't work after
@@ -25,7 +25,7 @@ namespace Mirror.Examples.Pong
                 ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
                 NetworkServer.Spawn(ball);
             }
-        }
+        } 
 
         public override void OnServerDisconnect(NetworkConnection conn)
         {

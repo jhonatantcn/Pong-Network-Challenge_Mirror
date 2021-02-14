@@ -1,48 +1,60 @@
-﻿using UnityEngine;
+﻿using Mirror;
 using TMPro;
-using Mirror.Examples.Pong;
+using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     [Header("Ball")]
     public GameObject ball;
 
-    [Header("Player 1")]
-    public GameObject racketPlayer1;
-    public GameObject wallBehindPlayer1;
+    //[Header("Walls")]
+    //public GameObject wallBehindPlayer1;
+    //public GameObject wallBehindPlayer2;
 
-    [Header("Player 2")]
-    public GameObject racketPlayer2;
-    public GameObject wallBehindPlayer2;
+    // [Header("Score")]
+    // public GameObject textPlayer1;
+    // public GameObject textPlayer2;
 
-    [Header("Score")]
-    public GameObject textPlayer1;
-    public GameObject textPlayer2;
+    // private int ScorePlayer1;
+    // private int ScorePlayer2;
 
-    private int ScorePlayer1;
-    private int ScorePlayer2;
+    // public bool needResetRackets;
 
-    public void ScoredPlayer1()
-    {
-        ScorePlayer1++;
-        textPlayer1.GetComponent<TextMeshProUGUI>().text = ScorePlayer1.ToString();
-        ResetPosition();
-    }
+    //[ClientRpc]
+    // public void ScoredPlayer1()
+    // {
+        // ScorePlayer1++;
+        // textPlayer1.GetComponent<TextMeshProUGUI>().text = ScorePlayer1.ToString();
+        // needResetRackets = true; // As Rackets dos dois players
+        // ResetBallPosition();
+    // }
 
-    public void ScoredPlayer2()
-    {
-        ScorePlayer2++;
-        textPlayer2.GetComponent<TextMeshProUGUI>().text = ScorePlayer2.ToString();
-        ResetPosition();
-    }
+    //[ClientRpc]
+    // public void ScoredPlayer2()
+    // {
+        // ScorePlayer2++;
+        // textPlayer2.GetComponent<TextMeshProUGUI>().text = ScorePlayer2.ToString();
+        // needResetRackets = true; // As Rackets dos dois players
+        // ResetBallPosition();
+    // }
 
-    private void ResetPosition()
+    public void ResetPosition()
     {
         ball = GameObject.FindWithTag("Ball");
         ball.GetComponent<Ball>().Reset();
+        RpcRacketsPositionUpdate();
     }
 
-    // Function to Quit Game
+    [ClientRpc]
+    public void RpcRacketsPositionUpdate() //RpcMajScore
+    {
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Racket"))
+        {
+            go.GetComponent<Player>().Reset();
+        }
+    }
+
+        // Function to Quit Game
 #if UNITY_EDITOR // If inside the editor, just show the debug message "Quit Game!".
         public void QuitGame()
     {

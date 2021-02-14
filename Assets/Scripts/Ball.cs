@@ -1,23 +1,25 @@
 using UnityEngine;
+using Mirror;
 
-namespace Mirror.Examples.Pong
-{
     public class Ball : NetworkBehaviour
     {
         public float speed = 30;
         public Rigidbody2D rigidbody2d;
         public Vector3 startPosition;
+        public float startAngularVelocity;
 
         void Start()
         {
             startPosition = transform.position;
+            startAngularVelocity = rigidbody2d.angularVelocity;
         }
 
         public void Reset()
         {
-            rigidbody2d.velocity = Vector2.zero;
-            transform.position = startPosition;
-            Launch();
+            rigidbody2d.velocity = Vector2.zero; // Cancela a velocidade linear (unidades por segundo) da física da bola para anular movimentações anteriores
+            rigidbody2d.angularVelocity = startAngularVelocity; // Cancela a velocidade angular (graus por segundo) da física da bola para anular movimentações anteriores
+            transform.position = startPosition; // Retorna a bola a sua posição inicial (no centro da tela)
+            Launch(); // Lança novamente a bola
         }
 
         public override void OnStartServer()
@@ -27,10 +29,10 @@ namespace Mirror.Examples.Pong
             // only simulate ball physics on server
             rigidbody2d.simulated = true;
 
-            Launch();
+            Launch(); // Lança a bola
         }
 
-        // Lança a bola randomicamente
+        // Fnção que lança a bola randomicamente
         private void Launch()
         {
             // sorte X e Y randomicamente, caso o valor randômico seja igual a 0, então recebe -1, caso não recebe 1.
@@ -79,4 +81,3 @@ namespace Mirror.Examples.Pong
             }
         }
     }
-}
