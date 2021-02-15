@@ -1,40 +1,43 @@
+using Mirror;
 using UnityEngine;
 
-namespace Mirror
+// NetworkManager personalizado que simplesmente atribui as posições corretas da raquete quando
+// os jogadores aparecem.
+
+[AddComponentMenu("")]
+public class NetworkManagerPong : NetworkManager
 {
-    // Custom NetworkManager that simply assigns the correct racket positions when
-    // spawning players. The built in RoundRobin spawn method wouldn't work after
-    // someone reconnects (both players would be on the same side).
-    [AddComponentMenu("")]
-    public class NetworkManagerPong : NetworkManager
+    public Transform leftRacketSpawn; // Posição da raquete esquerda
+    public Transform rightRacketSpawn; // Posição da raquete direita
+    GameObject ball;  // GameObject declarado
+
+    // Método chamado no servidor quando um cliente adiciona um novo jogador com ClientScene.AddPlayer.
+    public override void OnServerAddPlayer(NetworkConnection conn)
     {
-        public Transform leftRacketSpawn;
-        public Transform rightRacketSpawn;
-        GameObject ball;
+        // Adiciona o jogador na posição correta de spawn
+        // Caso o número de jogadores seja zero somente aparece a raquete esquerda, caso não, aparece a direita
+        Transform start = numPlayers == 0 ? leftRacketSpawn : rightRacketSpawn;
+        // O novo player é instanciado e ganha posição
+        GameObject player = Instantiate(playerPrefab, start.position, start.rotation);
+        // O novo player é adicionado a conexão
+        NetworkServer.AddPlayerForConnection(conn, player);
 
-        public override void OnServerAddPlayer(NetworkConnection conn)
+        // Faz o spawn da bola caso existam dois jogadores
+        if (numPlayers == 2)
         {
-            // add player at correct spawn position
-            Transform start = numPlayers == 0 ? leftRacketSpawn : rightRacketSpawn;
-            GameObject player = Instantiate(playerPrefab, start.position, start.rotation);
-            NetworkServer.AddPlayerForConnection(conn, player);
-
-            // spawn ball if two players
-            if (numPlayers == 2)
-            {
-                ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
-                NetworkServer.Spawn(ball);
-            }
-        } 
-
-        public override void OnServerDisconnect(NetworkConnection conn)
-        {
-            // destroy ball
-            if (ball != null)
-                NetworkServer.Destroy(ball);
-
-            // call base functionality (actually destroys the player)
-            base.OnServerDisconnect(conn);
+            ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball")); // Bola instanciada
+            NetworkServer.Spawn(ball); // Spawn da bola
         }
+    }
+
+    // Método chamado quando um cliente se disconecta
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        // A bola é destruída
+        if (ball != null)
+            NetworkServer.Destroy(ball);
+
+        // chama a funcionalidade base do NetworkManager (que destrói o jogador)
+        base.OnServerDisconnect(conn);
     }
 }

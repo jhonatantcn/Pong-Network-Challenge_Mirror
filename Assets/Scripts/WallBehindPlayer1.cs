@@ -4,34 +4,32 @@ using UnityEngine;
 
 public class WallBehindPlayer1 : NetworkBehaviour
 {
-    [SyncVar] public int scoreP1 = 0;
+    [SyncVar] public int scoreP2 = 0; // Score do Player2 (direita)
 
+    // A opção trigger foi acionada no GameObject "WallBehindPlayer1", então ao colidir este método é executado
     private void OnTriggerEnter2D(Collider2D Collision)
     {
+        // Caso a colisão seja com a bola
         if (Collision.gameObject.CompareTag("Ball"))
         {
-            // Player 1 Scored...
-            //this.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+            // Player 2 pontua...
             CmdServerScored();
-            GameObject.Find("GameManager").GetComponent<GameManager>().ResetPosition();
+            // E as posições são resetadas (bola e raquetes)
+            GameObject.Find("GameManager").GetComponent<GameManager>().ResetPositions();
         }
     }
 
-    //[Command]
-    void CmdServerScored() // CmdAjoutPoint
+    // Contagem da pontuação do player 2 feita no servidor
+    void CmdServerScored()
     {
-        //Debug.Log("Teste 11...");
-        //if (!isLocalPlayer)
-        //    return;
-
-        scoreP1 += 1;
-        RpcScoreUpdate(scoreP1);
+        scoreP2 += 1;
+        RpcScoreUpdate(scoreP2); // É solicitada a atualização da pontuação na tela do cliente
     }
 
+    // Atualização da pontuação na tela do cliente
     [ClientRpc]
-    public void RpcScoreUpdate(int score) //RpcMajScore
+    public void RpcScoreUpdate(int score)
     {
-        //Debug.Log("Teste 12...");
-        GameObject.FindGameObjectWithTag("ScorePlayer1").GetComponent<TextMeshProUGUI>().text = "" + score;
+        GameObject.FindGameObjectWithTag("ScorePlayer2").GetComponent<TextMeshProUGUI>().text = "" + score;
     }
 }

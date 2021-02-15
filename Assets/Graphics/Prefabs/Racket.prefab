@@ -185,3 +185,4 @@ MonoBehaviour:
   speed: 1500
   rigidbody2d: {fileID: 50389918509199184}
   startPosition: {x: 0, y: 0, z: 0}
+  gameManager: {fileID: 0}

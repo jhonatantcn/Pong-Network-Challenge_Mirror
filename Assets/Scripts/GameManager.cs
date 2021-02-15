@@ -4,68 +4,36 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
-    [Header("Ball")]
-    public GameObject ball;
-
-    //[Header("Walls")]
-    //public GameObject wallBehindPlayer1;
-    //public GameObject wallBehindPlayer2;
-
-    // [Header("Score")]
-    // public GameObject textPlayer1;
-    // public GameObject textPlayer2;
-
-    // private int ScorePlayer1;
-    // private int ScorePlayer2;
-
-    // public bool needResetRackets;
-
-    //[ClientRpc]
-    // public void ScoredPlayer1()
-    // {
-        // ScorePlayer1++;
-        // textPlayer1.GetComponent<TextMeshProUGUI>().text = ScorePlayer1.ToString();
-        // needResetRackets = true; // As Rackets dos dois players
-        // ResetBallPosition();
-    // }
-
-    //[ClientRpc]
-    // public void ScoredPlayer2()
-    // {
-        // ScorePlayer2++;
-        // textPlayer2.GetComponent<TextMeshProUGUI>().text = ScorePlayer2.ToString();
-        // needResetRackets = true; // As Rackets dos dois players
-        // ResetBallPosition();
-    // }
-
-    public void ResetPosition()
+    // Método que solicita o reset da bola e envia uma requisição aos clientes para resetarem a posição das raquetes.
+    // Este método é chamado sempre que ocorre um novo ponto na partida
+    public void ResetPositions()
     {
-        ball = GameObject.FindWithTag("Ball");
-        ball.GetComponent<Ball>().Reset();
+        GameObject.FindWithTag("Ball").GetComponent<Ball>().Reset();
         RpcRacketsPositionUpdate();
     }
 
+    // Requisição aos clientes para resetarem a posição das raquetes.
     [ClientRpc]
-    public void RpcRacketsPositionUpdate() //RpcMajScore
+    public void RpcRacketsPositionUpdate()
     {
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Racket"))
+        // Este código é executado dentro de cada cliente e solicita o reset das duas raquetes na tela de cada cliente,
+        // o foreach é usado para atingir todas os GameObjects com a tag "Racket", neste jogo são duas.
+        foreach (GameObject racket in GameObject.FindGameObjectsWithTag("Racket"))
         {
-            go.GetComponent<Player>().Reset();
+            racket.GetComponent<Player>().Reset();
         }
     }
 
-        // Function to Quit Game
-#if UNITY_EDITOR // If inside the editor, just show the debug message "Quit Game!".
-        public void QuitGame()
+    // Método para sair do jogo
+#if UNITY_EDITOR // Se estiver dentro do editor, somente mostre a mensagem de debug "Quit Game!".
+    public void QuitGame()
     {
         Debug.Log("Quit Game!");
     }
-#else // If not, close the application.
+#else // Se não estiver dentro do editor, feche a aplicação.
     public void QuitGame()
     {
         Application.Quit();
-        //System.Diagnostics.Process.GetCurrentProcess().Kill();
     }
 #endif
-
 }

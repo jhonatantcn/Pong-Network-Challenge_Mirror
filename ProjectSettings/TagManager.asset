@@ -8,6 +8,7 @@ TagManager:
   - Racket
   - ScorePlayer1
   - ScorePlayer2
+  - IPAdress
   layers:
   - Default
   - TransparentFX
