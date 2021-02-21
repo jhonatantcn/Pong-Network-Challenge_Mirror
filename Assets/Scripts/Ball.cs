@@ -8,7 +8,8 @@ public class Ball : NetworkBehaviour
     public Vector3 startPosition; // Posição inicial da bola
     public float startAngularVelocity; // Velocidade angular inicial da bola
 
-    // Start é chamado antes da primeira atualização de frame
+    // O método Start é chamado automaticamente pela Unity ao iniciar o jogo,
+	// antes da primeira atualização de frame
     void Start()
     {
         startPosition = transform.position; // startPosition recebe a posição inicial da bola

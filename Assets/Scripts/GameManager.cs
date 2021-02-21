@@ -18,7 +18,7 @@ public class GameManager : NetworkBehaviour
     {
         // Este código é executado dentro de cada cliente e solicita o reset das duas raquetes na tela de cada cliente,
         // o foreach é usado para atingir todas os GameObjects com a tag "Racket", neste jogo são duas.
-        foreach (GameObject racket in GameObject.FindGameObjectsWithTag("Racket"))
+        foreach (GameObject racket in GameObject.FindWithTag("Racket"))
         {
             racket.GetComponent<Player>().Reset();
         }

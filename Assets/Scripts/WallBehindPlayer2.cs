@@ -30,7 +30,7 @@ public class WallBehindPlayer2 : NetworkBehaviour
     [ClientRpc]
     public void RpcScoreUpdate(int score)
     {
-        GameObject.FindGameObjectWithTag("ScorePlayer1").GetComponent<TextMeshProUGUI>().text = "" + score;
+        GameObject.FindWithTag("ScorePlayer1").GetComponent<TextMeshProUGUI>().text = "" + score;
     }
 }
 

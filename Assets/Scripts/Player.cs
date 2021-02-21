@@ -8,6 +8,8 @@ public class Player : NetworkBehaviour
     public Vector3 startPosition; // Posição inicial de cada raquete
     public GameObject gameManager; // GameObject declarado
 
+	// O método Start é chamado automaticamente pela Unity ao iniciar o jogo,
+	// antes da primeira atualização de frame
     void Start()
     {
         startPosition = transform.position; // startPosition recebe a posição inicial de cada raquete

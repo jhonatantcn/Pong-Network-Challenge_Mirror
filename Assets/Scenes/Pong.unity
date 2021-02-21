@@ -839,7 +839,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ball: {fileID: 1080679924113744, guid: 37be0661cffbcaf43a17167ca6d0ac61, type: 3}
 --- !u!4 &1211229847
 Transform:
   m_ObjectHideFlags: 0
@@ -1063,7 +1062,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1607538195}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1352350032
 BoxCollider2D:
@@ -1405,7 +1404,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1607538195}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1575697332
 BoxCollider2D:
@@ -1523,8 +1522,8 @@ Transform:
   m_Children:
   - {fileID: 1368547946}
   - {fileID: 753891882}
-  - {fileID: 1575697331}
   - {fileID: 1352350031}
+  - {fileID: 1575697331}
   - {fileID: 289876232}
   m_Father: {fileID: 0}
   m_RootOrder: 2
