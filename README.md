@@ -1,1 +1,1 @@
-# Pong-Challenge
+# A local network version of the Pong Multiplayer game
